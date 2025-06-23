@@ -24,7 +24,6 @@ public class CameraScroll : MonoBehaviour
     {
         if (player == null) return;
 
-        // Ak je otriasanie vypnuté, neaplikuj offsety
         if (!enableShake)
         {
             shakeOffset = Vector3.zero;
