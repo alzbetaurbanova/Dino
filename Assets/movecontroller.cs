@@ -30,6 +30,7 @@ public class Movecontroller : MonoBehaviour
 
     private void Update()
     {
+        CollisionChecks();
         if (isOnMovingPlatform)
         {
             // Ak je hráč na pohybujúcej sa platforme, neposúvaj ho samostatne
@@ -39,7 +40,7 @@ public class Movecontroller : MonoBehaviour
         AnimationControllers();
         xInput = Input.GetAxisRaw("Horizontal");
         Movement();
-        CollisionChecks();
+        
         FlipController();
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -51,7 +52,7 @@ public class Movecontroller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
             Flip();
     }
-
+ 
     private void AnimationControllers()
     {
         anim.SetFloat("xVelocity", rb.velocity.x);
@@ -62,7 +63,11 @@ public class Movecontroller : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (groundCheck != null)
+        {
+            //Gizmos.color = Color.green; // farba gule
+            //Gizmos.DrawSphere(groundCheck.position, groundCheckRadius); // plná guľa
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 
     private void Jump()

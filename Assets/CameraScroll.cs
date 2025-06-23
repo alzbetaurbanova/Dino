@@ -15,10 +15,10 @@ public class CameraScroll : MonoBehaviour
 
     private bool isReturning = false;
     private float returnElapsed = 0f;
-    public bool enableShake = true;  // Default zapnuté
-
+    public bool enableShake = true;
     private Coroutine shakeCoroutine;
 
+    public bool allowFollow = true; // 🔥 Nové – ovládanie sledovania
 
     void Update()
     {
@@ -30,42 +30,38 @@ public class CameraScroll : MonoBehaviour
             isReturning = false;
         }
 
-        Vector3 targetPosition = new Vector3(
-            transform.position.x,
-            player.position.y + verticalOffset,
-            transform.position.z
-        );
-
-        if (isReturning)
+        if (allowFollow)
         {
-            returnElapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(returnElapsed / returnSmoothTime);
-            shakeOffset = Vector3.Lerp(shakeOffset, Vector3.zero, t);
+            Vector3 targetPosition = new Vector3(
+                transform.position.x,
+                player.position.y + verticalOffset,
+                transform.position.z
+            );
 
-            if (t >= 1f)
+            if (isReturning)
             {
-                isReturning = false;
-                shakeOffset = Vector3.zero;
-            }
-        }
+                returnElapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(returnElapsed / returnSmoothTime);
+                shakeOffset = Vector3.Lerp(shakeOffset, Vector3.zero, t);
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition + shakeOffset, followSpeed * Time.deltaTime);
+                if (t >= 1f)
+                {
+                    isReturning = false;
+                    shakeOffset = Vector3.zero;
+                }
+            }
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition + shakeOffset, followSpeed * Time.deltaTime);
+        }
     }
 
     public void ShakeCamera()
     {
-        if (!enableShake)
-        {
-            Debug.Log("Camera shake is disabled.");
-            return;
-        }
-
-        Debug.Log("Shaking for " + shakeDuration + " seconds!");
+        if (!enableShake) return;
 
         if (shakeCoroutine != null)
-        {
             StopCoroutine(shakeCoroutine);
-        }
+
         shakeCoroutine = StartCoroutine(CameraShakeCoroutine());
     }
 
@@ -84,12 +80,7 @@ public class CameraScroll : MonoBehaviour
     public void SetShakeEnabled(bool isEnabled)
     {
         enableShake = isEnabled;
-        Debug.Log("Shake toggled: " + enableShake);
-
-        if (!enableShake)
-        {
-            StopShake();
-        }
+        if (!enableShake) StopShake();
     }
 
     private IEnumerator CameraShakeCoroutine()
@@ -99,19 +90,16 @@ public class CameraScroll : MonoBehaviour
 
         while (elapsed < shakeDuration)
         {
-            // Ak sa shake vypol počas korutiny, ukonči to
             if (!enableShake) yield break;
 
             float offsetX = Random.Range(-1f, 1f) * shakeMagnitude;
             float offsetY = Random.Range(-1f, 1f) * shakeMagnitude;
 
             shakeOffset = new Vector3(offsetX, offsetY, 0);
-
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Spustíme plynulé vrátenie
         returnElapsed = 0f;
         isReturning = true;
     }

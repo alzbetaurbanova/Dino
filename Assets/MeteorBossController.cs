@@ -1,4 +1,5 @@
-﻿#pragma warning disable 0618
+﻿// MeteorBossController.cs
+#pragma warning disable 0618
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,14 +18,10 @@ public class MeteorBossController : MonoBehaviour
     [Header("References")]
     [SerializeField] private UI ui;
     [SerializeField] private MusicManager musicManager;
-    [SerializeField] private Camera mainCamera;
     [SerializeField] private TargetSpawner targetSpawner;
 
-    [Header("Camera Zoom")]
-    [SerializeField] private float zoomOutSize = 10f;
-    private float originalCamSize;
-
     private bool fightActive = false;
+    private bool attackEnabled = true;
 
     [Header("Boss Animators")]
     [SerializeField] private Animator headAnimator;
@@ -35,46 +32,34 @@ public class MeteorBossController : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        originalCamSize = mainCamera.orthographicSize;
-        
-
     }
 
-    // Toto pridaj:
     public void StartBossFightExternally()
     {
         StartCoroutine(StartBossFight());
     }
 
-
     IEnumerator StartBossFight()
     {
         fightActive = true;
 
-        originalCamSize = mainCamera.orthographicSize;
-
-        // Zoom out kamery
-        float elapsed = 0f;
-        float zoomDuration = 1f;
-        while (elapsed < zoomDuration)
-        {
-            mainCamera.orthographicSize = Mathf.Lerp(originalCamSize, zoomOutSize, elapsed / zoomDuration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        mainCamera.orthographicSize = zoomOutSize;
-
         if (targetSpawner != null)
             targetSpawner.verticalOffset = 1000f;
 
-        // Boss music? -> musicManager.PlayBossMusic();
         StartCoroutine(AttackRoutine());
+        yield return null;
     }
 
     IEnumerator AttackRoutine()
     {
         while (fightActive && currentHealth > 0)
         {
+            if (!attackEnabled)
+            {
+                yield return null;
+                continue;
+            }
+
             PlayAttackAnimations();
 
             foreach (Transform shootPoint in shootPoints)
@@ -114,23 +99,10 @@ public class MeteorBossController : MonoBehaviour
     {
         fightActive = false;
 
-        //PlayDeathAnimations();
-
-        float elapsed = 0f;
-        float zoomDuration = 1f;
-        while (elapsed < zoomDuration)
-        {
-            mainCamera.orthographicSize = Mathf.Lerp(zoomOutSize, originalCamSize, elapsed / zoomDuration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        mainCamera.orthographicSize = originalCamSize;
-
         if (targetSpawner != null)
             targetSpawner.verticalOffset = 9f;
 
-        // musicManager.PlayNormalMusic();
-        yield return new WaitForSeconds(2f); // chvíľka na prehratie animácie smrti
+        yield return new WaitForSeconds(2f);
 
         Destroy(gameObject);
         ui.OpenEndScreen();
@@ -152,11 +124,13 @@ public class MeteorBossController : MonoBehaviour
         handsAnimator.Play("BossHands_Attack");
     }
 
-   /* void PlayDeathAnimations()
+    public void SetAttackState(bool enabled)
     {
-        headAnimator.Play("BossHead_Death");
-        eyesAnimator.Play("BossEyes_Death");
-        mouthAnimator.Play("BossMouth_Death");
-        handsAnimator.Play("BossHands_Death");
-    }*/
+        attackEnabled = enabled;
+
+        if (!enabled)
+        {
+            PlayIdleAnimations();
+        }
+    }
 }

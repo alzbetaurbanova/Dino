@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0618
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovingCloud : MonoBehaviour
