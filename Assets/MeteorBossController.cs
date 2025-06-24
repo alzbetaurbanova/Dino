@@ -62,6 +62,8 @@ public class MeteorBossController : MonoBehaviour
     public void StartBossFightExternally()
     {
         StartCoroutine(StartBossFight());
+        musicManager.PlayBossMusic();
+
     }
 
     IEnumerator StartBossFight()

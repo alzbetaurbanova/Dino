@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-
 public class MusicManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] musicPlaylist; 
+    [SerializeField] private AudioClip[] musicPlaylist;
     private AudioSource audioSource;
 
     private List<AudioClip> shuffledPlaylist = new List<AudioClip>();
@@ -16,8 +16,19 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private float defaultVolume = 0.2f;
     public bool isMusicPaused = false;
 
+    // 🔥 BOSS MUSIC SYSTEM
+    [Header("Boss Music Settings")]
+    [SerializeField] private AudioClip bossMusic;
+    [SerializeField] private float fadeDuration = 1.5f;
 
+    private Coroutine fadeCoroutine;
+    private bool bossMusicPlaying = false;
+    private bool hasFocus = true;
 
+    void OnApplicationFocus(bool focus)
+    {
+        hasFocus = focus;
+    }
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -33,8 +44,6 @@ public class MusicManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>();
-
             ShufflePlaylist();
             PlayCurrentTrack();
         }
@@ -44,9 +53,13 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+
     void Update()
     {
-        if (!audioSource.isPlaying && !isMusicPaused)
+        // Ak nemáme fokus alebo pauza, nič nerob
+        if (!hasFocus || isMusicPaused || bossMusicPlaying) return;
+
+        if (!audioSource.isPlaying)
         {
             NextTrack();
         }
@@ -72,6 +85,7 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = shuffledPlaylist[currentTrack];
         audioSource.Play();
     }
+
     public void SetVolume(float volume)
     {
         if (audioSource != null)
@@ -99,5 +113,81 @@ public class MusicManager : MonoBehaviour
         }
 
         PlayCurrentTrack();
+    }
+
+    // ⏬ BOSS MUSIC WITH FADE OUT
+    public void PlayBossMusic()
+    {
+        if (bossMusicPlaying) return;
+
+        bossMusicPlaying = true;
+
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        fadeCoroutine = StartCoroutine(FadeOutAndPlayBossTrack());
+    }
+
+    private IEnumerator FadeOutAndPlayBossTrack()
+    {
+        float startVolume = audioSource.volume;
+        float t = 0f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        audioSource.clip = bossMusic;
+        audioSource.Play();
+
+        t = 0f;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(0f, volumeSlider.value, t / fadeDuration);
+            yield return null;
+        }
+
+        audioSource.volume = volumeSlider.value;
+    }
+
+    // ⏫ VOLITEĽNE: Na návrat k playlistu
+    public void ResumePlaylist()
+    {
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        fadeCoroutine = StartCoroutine(FadeOutAndResumePlaylist());
+    }
+
+    private IEnumerator FadeOutAndResumePlaylist()
+    {
+        float startVolume = audioSource.volume;
+        float t = 0f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        ShufflePlaylist();
+        currentTrack = 0;
+        PlayCurrentTrack();
+
+        t = 0f;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(0f, volumeSlider.value, t / fadeDuration);
+            yield return null;
+        }
+
+        audioSource.volume = volumeSlider.value;
+        bossMusicPlaying = false;
     }
 }
