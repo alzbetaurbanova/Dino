@@ -1,4 +1,4 @@
-﻿#pragma warning disable 0618 //vypne upozornenia
+﻿#pragma warning disable 0618
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -19,9 +19,18 @@ public class Bullet : MonoBehaviour
 
             TargetSpawner spawner = FindObjectOfType<TargetSpawner>();
             if (spawner != null)
-            {
                 spawner.TargetDestroyed();
+        }
+        else if (collision.CompareTag("Boss"))
+        {
+            MeteorBossController boss = collision.GetComponent<MeteorBossController>();
+            if (boss != null)
+            {
+                boss.TakeDamage(1); //
             }
+
+            Destroy(gameObject); // znič len strelu, NIE výbuch
         }
     }
+
 }

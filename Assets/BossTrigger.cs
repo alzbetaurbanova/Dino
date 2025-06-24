@@ -16,7 +16,7 @@ public class BossTrigger : MonoBehaviour
 
     private MeteorBossController boss;
     private CameraScroll cameraScroll;
-
+    
     private void Start()
     {
         if (mainCamera == null)

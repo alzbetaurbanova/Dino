@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - MovingCloud
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -60,6 +61,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1043477899
+    locked: 0
+  - name: UI
+    uniqueID: 1575888943
     locked: 0
   m_RenderingLayers:
   - Default
