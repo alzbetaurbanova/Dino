@@ -135,13 +135,13 @@ public class MeteorBossController : MonoBehaviour
         heartLow.SetActive(false);
         heartEmpty.SetActive(false);
 
-        if (currentHealth >= 200)
+        if (currentHealth > maxHealth * 0.75)
             heartFull.SetActive(true);
-        else if (currentHealth >= 150)
+        else if (currentHealth > maxHealth * 0.5)
             heartCracked.SetActive(true);
-        else if (currentHealth >= 100)
+        else if (currentHealth > maxHealth * 0.3)
             heartMid.SetActive(true);
-        else if (currentHealth >= 60)
+        else if (currentHealth > maxHealth * 0.03)
             heartLow.SetActive(true);
         else
             heartEmpty.SetActive(true);
