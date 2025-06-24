@@ -1,6 +1,8 @@
-﻿using TMPro;
+﻿#pragma warning disable 0618
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 
 public class UI : MonoBehaviour
 {
@@ -110,11 +112,17 @@ public class UI : MonoBehaviour
     public void RestartGame()
     {
         gameTime = 0f;
-
         isGameOver = false;
         Time.timeScale = 1;
+
+        // Resetni stav hudby
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.ResetMusicState();
+
         SceneManager.LoadScene(0);
     }
+
+
 
     public void QuitGame()
     {

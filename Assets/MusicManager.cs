@@ -2,9 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+
 
 public class MusicManager : MonoBehaviour
+
 {
+    public static MusicManager Instance => instance;
+
     [SerializeField] private AudioClip[] musicPlaylist;
     private AudioSource audioSource;
 
@@ -20,17 +26,33 @@ public class MusicManager : MonoBehaviour
     [Header("Boss Music Settings")]
     [SerializeField] private AudioClip bossMusic;
     [SerializeField] private float fadeDuration = 1.5f;
-    
+
     private Coroutine fadeCoroutine;
     private bool bossMusicPlaying = false;
     private bool hasFocus = true;
     [SerializeField] private Text trackNameText;
+    [SerializeField] private Button nextTrackButton;
+
+
+
+
     void OnApplicationFocus(bool focus)
     {
         hasFocus = focus;
     }
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);  // Znič duplicitu!
+            return;
+        }
+
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = defaultVolume;
 
@@ -40,18 +62,12 @@ public class MusicManager : MonoBehaviour
             volumeSlider.onValueChanged.AddListener(SetVolume);
         }
 
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            ShufflePlaylist();
-            PlayCurrentTrack();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        ShufflePlaylist();
+        PlayCurrentTrack();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
 
     void Update()
@@ -134,6 +150,10 @@ public class MusicManager : MonoBehaviour
     // ⏬ BOSS MUSIC WITH FADE OUT
     public void PlayBossMusic()
     {
+        if (nextTrackButton != null)
+            nextTrackButton.gameObject.SetActive(false);
+
+
         if (bossMusicPlaying) return;
 
         bossMusicPlaying = true;
@@ -159,6 +179,10 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = bossMusic;
         audioSource.Play();
 
+        if (trackNameText != null)
+            trackNameText.text = bossMusic.name;
+
+
         t = 0f;
         while (t < fadeDuration)
         {
@@ -173,10 +197,15 @@ public class MusicManager : MonoBehaviour
     // ⏫ VOLITEĽNE: Na návrat k playlistu
     public void ResumePlaylist()
     {
+        if (nextTrackButton != null)
+            nextTrackButton.gameObject.SetActive(true);
+
+
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
         fadeCoroutine = StartCoroutine(FadeOutAndResumePlaylist());
+
     }
 
     private IEnumerator FadeOutAndResumePlaylist()
@@ -206,4 +235,44 @@ public class MusicManager : MonoBehaviour
         audioSource.volume = volumeSlider.value;
         bossMusicPlaying = false;
     }
+    public void ResetMusicState()
+    {
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        bossMusicPlaying = false;
+        isMusicPaused = false;
+
+        ShufflePlaylist();
+        currentTrack = 0;
+        PlayCurrentTrack();
+
+        // 👇 nastav aj meno pesničky naspäť
+        if (trackNameText != null)
+            trackNameText.text = audioSource.clip.name;
+
+        // a znovu aktivuj next track button ak si ho mal skrytý pri bossovi
+        if (nextTrackButton != null)
+            nextTrackButton.gameObject.SetActive(true);
+
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Znova nájdeme referencie, ktoré sa stratili po restartnutí scény
+        if (trackNameText == null)
+        {
+            trackNameText = GameObject.Find("isPlaying")?.GetComponent<Text>();
+            if (trackNameText != null)
+                trackNameText.text = audioSource.clip != null ? audioSource.clip.name : "";
+        }
+
+        if (nextTrackButton == null)
+        {
+            GameObject btnObj = GameObject.Find("NextTrack");
+            if (btnObj != null)
+                nextTrackButton = btnObj.GetComponent<Button>();
+        }
+    }
+
+
 }
