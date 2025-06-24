@@ -6,6 +6,12 @@ public class VolumeUIController : MonoBehaviour
     [SerializeField] private AudioSource musicAudioSource; // nastav v Inspector
     public static bool isMenuOpen = false;
 
+    void Start()
+    {
+        bgSettings.SetActive(false);
+        isMenuOpen = false;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

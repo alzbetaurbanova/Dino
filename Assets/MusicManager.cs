@@ -20,11 +20,11 @@ public class MusicManager : MonoBehaviour
     [Header("Boss Music Settings")]
     [SerializeField] private AudioClip bossMusic;
     [SerializeField] private float fadeDuration = 1.5f;
-
+    
     private Coroutine fadeCoroutine;
     private bool bossMusicPlaying = false;
     private bool hasFocus = true;
-
+    [SerializeField] private Text trackNameText;
     void OnApplicationFocus(bool focus)
     {
         hasFocus = focus;
@@ -84,7 +84,11 @@ public class MusicManager : MonoBehaviour
 
         audioSource.clip = shuffledPlaylist[currentTrack];
         audioSource.Play();
+
+        if (trackNameText != null)
+            trackNameText.text = audioSource.clip.name;
     }
+
 
     public void SetVolume(float volume)
     {
@@ -114,6 +118,18 @@ public class MusicManager : MonoBehaviour
 
         PlayCurrentTrack();
     }
+    public void SkipToNextTrack()
+    {
+        if (bossMusicPlaying || isMusicPaused) return;
+
+        currentTrack++;
+
+        if (currentTrack >= shuffledPlaylist.Count)
+            currentTrack = 0;
+
+        PlayCurrentTrack();
+    }
+
 
     // ⏬ BOSS MUSIC WITH FADE OUT
     public void PlayBossMusic()
