@@ -149,24 +149,7 @@ public class MeteorBossController : MonoBehaviour
             heartEmpty.SetActive(true);
     }
 
-    IEnumerator EndBossFight()
-    {
-        fightActive = false;
 
-        if (bossHealthBar != null)
-            bossHealthBar.gameObject.SetActive(false);
-
-        if (bossHeartUI != null)
-            bossHeartUI.SetActive(false);
-
-        if (targetSpawner != null)
-            targetSpawner.verticalOffset = 9f;
-
-        yield return new WaitForSeconds(2f);
-
-        Destroy(gameObject);
-        ui.OpenEndScreen();
-    }
 
     void PlayIdleAnimations()
     {
@@ -226,4 +209,27 @@ public class MeteorBossController : MonoBehaviour
             }
         }
     }
+    IEnumerator EndBossFight()
+    {
+        fightActive = false;
+
+        if (bossHealthBar != null)
+            bossHealthBar.gameObject.SetActive(false);
+
+        if (bossHeartUI != null)
+            bossHeartUI.SetActive(false);
+
+        if (targetSpawner != null)
+            targetSpawner.verticalOffset = 9f;
+
+        yield return new WaitForSeconds(2f);
+
+        // 🔓 Unlock Level 2
+        PlayerPrefs.SetInt("Level2Unlocked", 1);
+        PlayerPrefs.Save();
+
+        Destroy(gameObject);
+        ui.OpenEndScreen();
+    }
+
 }

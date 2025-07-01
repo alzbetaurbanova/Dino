@@ -1,25 +1,34 @@
-#pragma warning disable 0618 
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelUnlocker : MonoBehaviour
 {
-    [SerializeField] private Button level2Button;
-    [SerializeField] private GameObject lockImage;
+    [SerializeField] private int totalLevels = 6;
 
     void Start()
     {
-        int unlocked = PlayerPrefs.GetInt("Level2Unlocked", 0);
+        for (int i = 1; i <= totalLevels; i++)
+        {
+            string levelKey = "Level" + i + "Unlocked";
+            bool isUnlocked = PlayerPrefs.GetInt(levelKey, i == 1 ? 1 : 0) == 1;
 
-        if (unlocked == 1)
-        {
-            level2Button.interactable = true;
-            lockImage.SetActive(false);
-        }
-        else
-        {
-            level2Button.interactable = false;
-            lockImage.SetActive(true);
+            GameObject btnObj = GameObject.Find("Level" + i + "Button");
+
+            if (btnObj != null)
+            {
+                Button btn = btnObj.GetComponent<Button>();
+                Transform lockObj = btnObj.transform.Find("Lock");
+
+                if (btn != null)
+                    btn.interactable = isUnlocked;
+
+                if (lockObj != null)
+                    lockObj.gameObject.SetActive(!isUnlocked);
+            }
+            else
+            {
+                Debug.LogWarning("Button for Level " + i + " not found!");
+            }
         }
     }
 }
