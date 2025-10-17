@@ -19,6 +19,7 @@ public class BossTrigger : MonoBehaviour
     
     private void Start()
     {
+        
         if (mainCamera == null)
             mainCamera = Camera.main;
 

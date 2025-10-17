@@ -9,6 +9,7 @@ public class MeteorBossController : MonoBehaviour
     public int maxHealth = 200;
     private int currentHealth;
     private Coroutine regenCoroutine;
+    private Coroutine attackRoutineInstance;
     [SerializeField] private float regenRate = 2f;
     [SerializeField] private int regenAmount = 1;
 
@@ -23,15 +24,19 @@ public class MeteorBossController : MonoBehaviour
     [SerializeField] private GameObject heartLow;
     [SerializeField] private GameObject heartEmpty;
 
-    [Header("Attack Settings")]
+    [Header("Minis")]
     [SerializeField] private GameObject miniMeteorPrefab;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float minSpeed = 15f;
+    [SerializeField] private float maxSpeed = 20f;
     [SerializeField] private Transform[] shootPoints;
-    [SerializeField] private float attackCooldown = 1.5f;
 
     [Header("References")]
     [SerializeField] private UI ui;
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private TargetSpawner targetSpawner;
+    private Transform playerTransform;
+    [SerializeField] private DeadZone deadZone;
 
     [Header("Boss Animators")]
     [SerializeField] private Animator headAnimator;
@@ -39,13 +44,18 @@ public class MeteorBossController : MonoBehaviour
     [SerializeField] private Animator mouthAnimator;
     [SerializeField] private Animator handsAnimator;
 
+    [Header("Hover Movement")]
+    [SerializeField] private float hoverDistance = 0.5f;
+    [SerializeField] private float hoverSpeed = 1f; 
+    private Vector3 startPosition;
+
     private bool fightActive = false;
     private bool attackEnabled = true;
 
     void Start()
     {
         currentHealth = maxHealth;
-
+        
         if (bossHealthBar != null)
         {
             bossHealthBar.maxValue = maxHealth;
@@ -57,6 +67,8 @@ public class MeteorBossController : MonoBehaviour
             bossHeartUI.SetActive(false);
 
         UpdateHeartUI();
+        startPosition = transform.position; // Uložíme stredovú pozíciu
+        StartCoroutine(HoverRoutine());
     }
 
     public void StartBossFightExternally()
@@ -68,7 +80,26 @@ public class MeteorBossController : MonoBehaviour
 
     IEnumerator StartBossFight()
     {
+        yield return new WaitForSeconds(attackCooldown);
+        if (fightActive)
+            yield break;
         fightActive = true;
+        Debug.Log("Start");
+        if (deadZone != null)
+        {
+            deadZone.gameObject.SetActive(false);
+            Debug.Log("DeadZone OFF");
+        }
+            PlayerHealth player = FindObjectOfType<PlayerHealth>();
+        if (player != null)
+        {
+            playerTransform = player.transform;
+            Debug.Log("player found");
+        }
+        else
+        {
+            Debug.LogError("player not found");
+        }
 
         if (bossHealthBar != null)
             bossHealthBar.gameObject.SetActive(true);
@@ -79,12 +110,24 @@ public class MeteorBossController : MonoBehaviour
         if (targetSpawner != null)
             targetSpawner.verticalOffset = 1000f;
 
+      
+        
         StartCoroutine(AttackRoutine());
         yield return null;
+    }
+    public void PauseBossFight()
+    {
+        fightActive = false;
+        StopAllCoroutines();
+        Debug.Log("Pause");
+        if (deadZone != null)
+        { deadZone.gameObject.SetActive(true); }
+        Debug.Log("DeadZone ON");
     }
 
     IEnumerator AttackRoutine()
     {
+        
         while (fightActive && currentHealth > 0)
         {
             if (!attackEnabled)
@@ -100,15 +143,35 @@ public class MeteorBossController : MonoBehaviour
 
             yield return new WaitForSeconds(attackCooldown);
             PlayIdleAnimations();
+
         }
+       
     }
 
     void SpawnMiniMeteor(Vector3 pos)
     {
+
+        if (playerTransform == null)
+        {
+            Debug.LogWarning("Player not found!");
+            return;
+        }
+        Vector2 directionToPlayer = (playerTransform.position - pos).normalized;
         GameObject meteor = Instantiate(miniMeteorPrefab, pos, Quaternion.identity);
         Rigidbody2D rb = meteor.GetComponent<Rigidbody2D>();
+        Collider2D collider = meteor.GetComponent<Collider2D>();
+
+        if (collider != null)
+        {
+            collider.isTrigger = true; 
+        }
+
         if (rb != null)
-            rb.velocity = Vector2.down * Random.Range(2f, 4f);
+        {
+            float speed = Random.Range(minSpeed, maxSpeed); 
+
+            rb.velocity = directionToPlayer * speed;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -207,6 +270,16 @@ public class MeteorBossController : MonoBehaviour
                 StopCoroutine(regenCoroutine);
                 regenCoroutine = null;
             }
+        }
+    }
+    IEnumerator HoverRoutine()
+    {
+        while (true)
+        { 
+            float newY = startPosition.y + Mathf.Sin(Time.time * hoverSpeed) * hoverDistance;
+            transform.position = new Vector3(startPosition.x, newY, startPosition.z);
+
+            yield return null; 
         }
     }
     IEnumerator EndBossFight()

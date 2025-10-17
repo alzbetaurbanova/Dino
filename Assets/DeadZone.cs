@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class DeadZone : MonoBehaviour
 {
+    private bool isDeadZoneActive = true;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isDeadZoneActive)
+            return;
+
         if (collision.CompareTag("Target")) // teda meteorit
         {
             // Najdi hráča a uber mu HP
@@ -30,4 +34,6 @@ public class DeadZone : MonoBehaviour
             }
         }
     }
+
 }
+

@@ -1,0 +1,490 @@
+fileFormatVersion: 2
+guid: dce7ad7d4684a194d84a23d3a8c7f085
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4249233988084288615
+    second: mini eyes_0
+  - first:
+      213: -2799193197659327307
+    second: mini eyes_1
+  - first:
+      213: 3357169478671259185
+    second: mini eyes_2
+  - first:
+      213: -1355326813768118830
+    second: mini eyes_3
+  - first:
+      213: -5392359715037426086
+    second: mini eyes_4
+  - first:
+      213: -6996562099147090037
+    second: mini eyes_5
+  - first:
+      213: -504566307898769978
+    second: mini eyes_6
+  - first:
+      213: -8174071793084285754
+    second: mini eyes_7
+  - first:
+      213: -1369442752077400617
+    second: mini eyes_8
+  - first:
+      213: -1809247456773775046
+    second: mini eyes_9
+  - first:
+      213: 7693689424513291505
+    second: mini eyes_10
+  - first:
+      213: 4405879389781893655
+    second: mini eyes_11
+  - first:
+      213: 3910814142269802715
+    second: mini eyes_12
+  - first:
+      213: 1297296564330660030
+    second: mini eyes_13
+  - first:
+      213: 6797727756683028076
+    second: mini eyes_14
+  - first:
+      213: 2097367921330615801
+    second: mini eyes_15
+  - first:
+      213: 6976924506079210283
+    second: mini eyes_16
+  - first:
+      213: -1869220492093897026
+    second: mini eyes_17
+  - first:
+      213: 6556349454980490807
+    second: mini eyes_18
+  - first:
+      213: -7050530664106807305
+    second: mini eyes_19
+  - first:
+      213: 4503929447698325558
+    second: mini eyes_20
+  - first:
+      213: -7346890637330934612
+    second: mini eyes_21
+  - first:
+      213: 7936863876577030620
+    second: mini eyes_22
+  - first:
+      213: -5405504779262355837
+    second: mini eyes_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: mini eyes_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 53
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99338b48330b705c0800000000000000
+      internalID: -4249233988084288615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 53
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 136dbf29adf079e20800000000000000
+      internalID: 3357169478671259185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 43
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5e411cb86d7a25b0800000000000000
+      internalID: -5392359715037426086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_6
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 43
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cd3014cd9b6ff8f0800000000000000
+      internalID: -504566307898769978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 33
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d571369213cefce0800000000000000
+      internalID: -1369442752077400617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_10
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 33
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f45b48c4c975ca60800000000000000
+      internalID: 7693689424513291505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_12
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 23
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd8c094fdb0064630800000000000000
+      internalID: 3910814142269802715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_14
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 23
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c66a7e8f061665e50800000000000000
+      internalID: 6797727756683028076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_16
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 13
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2ba1997fd303d060800000000000000
+      internalID: 6976924506079210283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_18
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 13
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 736207f9715dcfa50800000000000000
+      internalID: 6556349454980490807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 630ea7748fb218e30800000000000000
+      internalID: 4503929447698325558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mini eyes_22
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 3
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd1f00af4a7652e60800000000000000
+      internalID: 7936863876577030620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 7da961550479bae4bacf894a2800cbf7
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      mini eyes_0: -4249233988084288615
+      mini eyes_1: -2799193197659327307
+      mini eyes_10: 7693689424513291505
+      mini eyes_11: 4405879389781893655
+      mini eyes_12: 3910814142269802715
+      mini eyes_13: 1297296564330660030
+      mini eyes_14: 6797727756683028076
+      mini eyes_15: 2097367921330615801
+      mini eyes_16: 6976924506079210283
+      mini eyes_17: -1869220492093897026
+      mini eyes_18: 6556349454980490807
+      mini eyes_19: -7050530664106807305
+      mini eyes_2: 3357169478671259185
+      mini eyes_20: 4503929447698325558
+      mini eyes_21: -7346890637330934612
+      mini eyes_22: 7936863876577030620
+      mini eyes_23: -5405504779262355837
+      mini eyes_3: -1355326813768118830
+      mini eyes_4: -5392359715037426086
+      mini eyes_5: -6996562099147090037
+      mini eyes_6: -504566307898769978
+      mini eyes_7: -8174071793084285754
+      mini eyes_8: -1369442752077400617
+      mini eyes_9: -1809247456773775046
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

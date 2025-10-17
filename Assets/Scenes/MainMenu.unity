@@ -1349,7 +1349,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DLC
+  m_text: BUBEL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c480420840271e646b309612ed040d2d, type: 2}
   m_sharedMaterial: {fileID: 8299045745848308207, guid: c480420840271e646b309612ed040d2d, type: 2}
