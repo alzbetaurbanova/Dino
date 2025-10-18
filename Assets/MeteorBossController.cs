@@ -84,31 +84,19 @@ public class MeteorBossController : MonoBehaviour
         if (fightActive)
             yield break;
         fightActive = true;
-        Debug.Log("Start");
+
         if (deadZone != null)
         {
             deadZone.gameObject.SetActive(false);
             Debug.Log("DeadZone OFF");
         }
             PlayerHealth player = FindObjectOfType<PlayerHealth>();
-        if (player != null)
-        {
+
             playerTransform = player.transform;
-            Debug.Log("player found");
-        }
-        else
-        {
-            Debug.LogError("player not found");
-        }
-
-        if (bossHealthBar != null)
             bossHealthBar.gameObject.SetActive(true);
-
-        if (bossHeartUI != null)
             bossHeartUI.SetActive(true);
-
-        if (targetSpawner != null)
             targetSpawner.verticalOffset = 1000f;
+
 
       
         
@@ -150,29 +138,39 @@ public class MeteorBossController : MonoBehaviour
 
     void SpawnMiniMeteor(Vector3 pos)
     {
-
         if (playerTransform == null)
         {
-            Debug.LogWarning("Player not found!");
+            Debug.LogWarning("❌ Player transform not found!");
             return;
         }
-        Vector2 directionToPlayer = (playerTransform.position - pos).normalized;
+
         GameObject meteor = Instantiate(miniMeteorPrefab, pos, Quaternion.identity);
+
         Rigidbody2D rb = meteor.GetComponent<Rigidbody2D>();
-        Collider2D collider = meteor.GetComponent<Collider2D>();
-
-        if (collider != null)
+        if (rb == null)
         {
-            collider.isTrigger = true; 
+            Debug.LogError("❌ Rigidbody2D not found on MiniMeteor!");
+            return;
         }
 
-        if (rb != null)
-        {
-            float speed = Random.Range(minSpeed, maxSpeed); 
 
-            rb.velocity = directionToPlayer * speed;
-        }
+        Vector2 direction = (playerTransform.position - pos).normalized;
+
+        float randomAngle = Random.Range(-5f, 5f);
+        direction = Quaternion.Euler(0, 0, randomAngle) * direction;
+
+        float speed = Random.Range(minSpeed, maxSpeed);
+
+        rb.gravityScale = 0f;
+        rb.drag = 0f;
+        rb.angularDrag = 0f;
+        rb.velocity = direction * speed;
+
+        Debug.Log($"🚀 Meteor spawned. Speed: {speed}, Dir: {direction}");
+
+        Destroy(meteor, 5f);
     }
+
 
     public void TakeDamage(int damage)
     {

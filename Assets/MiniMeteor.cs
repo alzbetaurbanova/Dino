@@ -1,5 +1,4 @@
 ﻿#pragma warning disable 0618
-using System.Collections;
 using UnityEngine;
 
 public class MiniMeteorCustomizer : MonoBehaviour
@@ -10,23 +9,35 @@ public class MiniMeteorCustomizer : MonoBehaviour
 
     private Animator animator;
     private CircleCollider2D col;
-    private bool canExplode = true;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         col = GetComponent<CircleCollider2D>();
 
-        
-        // náhodné oči
-        int randomIndex = Random.Range(0, possibleEyeSprites.Length);
-        if (possibleEyeSprites.Length > 0)
+        GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+        if (boss != null)
+        {
+            Collider2D bossCollider = boss.GetComponent<Collider2D>();
+            if (bossCollider != null && col != null)
+            {
+                // Prikážeme fyzikálnemu enginu, aby trvalo ignoroval kolíziu medzi meteoritom a bossom
+                Physics2D.IgnoreCollision(col, bossCollider, true);
+            }
+        }
+
+        if (possibleEyeSprites.Length > 0 && eyeRenderer != null)
+        {
+            int randomIndex = Random.Range(0, possibleEyeSprites.Length);
             eyeRenderer.sprite = possibleEyeSprites[randomIndex];
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Kolízia s: " + collision.gameObject.name + " | Tag: " + collision.gameObject.tag);
+
+        //Debug.Log("Kolízia s: " + collision.gameObject.name + " | Tag: " + collision.gameObject.tag);
+
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Player"))
         {
             if (collision.gameObject.CompareTag("Player"))
@@ -43,7 +54,7 @@ public class MiniMeteorCustomizer : MonoBehaviour
 
     private void Explode()
     {
-        canExplode = false;
+        //Debug.Log("Explózia na: " + gameObject.name);
 
         if (col != null)
             col.enabled = false;
@@ -55,15 +66,16 @@ public class MiniMeteorCustomizer : MonoBehaviour
             rb.isKinematic = true;
         }
 
+        if (fireRenderer != null)
+            fireRenderer.enabled = false; // Vypne OHEŇ
+        if (eyeRenderer != null)
+            eyeRenderer.enabled = false; // Vypne OČI
+
         if (animator != null)
             animator.SetTrigger("Explo");
+        else
+            Debug.LogWarning("no animation");
 
-        if (fireRenderer != null)
-            fireRenderer.enabled = false;
-
-        if (eyeRenderer != null)
-            eyeRenderer.enabled = false;
-
-        Destroy(gameObject, 0.5f); // znič po animácii
+        Destroy(gameObject, 0.71f);
     }
 }

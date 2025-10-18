@@ -691,7 +691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 101340650}
   - component: {fileID: 101340651}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: tree_row left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -778,7 +778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 106828563}
   - component: {fileID: 106828564}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: water mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1245,6 +1245,84 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &185008236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185008238}
+  - component: {fileID: 185008237}
+  m_Layer: 0
+  m_Name: GroudTest
+  m_TagString: Ground
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &185008237
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185008236}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!4 &185008238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185008236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.12, y: 333.51, z: 0}
+  m_LocalScale: {x: 9.499219, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &190777991
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,7 +1478,7 @@ GameObject:
   m_Component:
   - component: {fileID: 221217196}
   - component: {fileID: 221217197}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: telo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1743,7 +1821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 280497771}
   - component: {fileID: 280497772}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gradient prechod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2281,7 +2359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313173466}
   - component: {fileID: 313173467}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2828,7 +2906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 409490412}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Birds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2874,7 +2952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 414649336}
   - component: {fileID: 414649337}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2966,7 +3044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 448423548}
   - component: {fileID: 448423549}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars upper R 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3259,7 +3337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 469073144}
   - component: {fileID: 469073145}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bottom_leaf_piles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4391,7 +4469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587134145}
   - component: {fileID: 587134146}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: House (112 x 96)_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4693,7 +4771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 614818175}
   - component: {fileID: 614818176}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: random planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5105,7 +5183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 664811413}
   - component: {fileID: 664811414}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars lower 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5438,7 +5516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 764759722}
   - component: {fileID: 764759721}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6484,7 +6562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 813987402}
   - component: {fileID: 813987403}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6570,7 +6648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 819430745}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Snehuliak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6755,7 +6833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 836088267}
   - component: {fileID: 836088268}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6842,7 +6920,7 @@ GameObject:
   m_Component:
   - component: {fileID: 838121706}
   - component: {fileID: 838121705}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gradient to space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7056,9 +7134,9 @@ GameObject:
   m_Component:
   - component: {fileID: 861687933}
   - component: {fileID: 861687932}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7224,7 +7302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 894631328}
   - component: {fileID: 894631327}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Saturter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7311,7 +7389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896371215}
   - component: {fileID: 896371216}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tree_row left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7403,7 +7481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 917653847}
   - component: {fileID: 917653848}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7834,7 +7912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 970756458}
   - component: {fileID: 970756459}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7991,7 +8069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986876780}
   - component: {fileID: 986876781}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8782,7 +8860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1039835123}
   - component: {fileID: 1039835124}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: earthlike planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8878,7 +8956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045529410}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Moving Clouds
   m_TagString: MovingCloud
   m_Icon: {fileID: 0}
@@ -9084,7 +9162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1072723996}
   - component: {fileID: 1072723995}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bg clouds left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9463,7 +9541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108457598}
   - component: {fileID: 1108457599}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: distant trees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9879,7 +9957,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1166740508}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BG Planets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10076,7 +10154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1177572385}
   - component: {fileID: 1177572386}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10371,7 +10449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1208955584}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lower Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10807,7 +10885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1313097508}
   - component: {fileID: 1313097509}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gradient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10969,7 +11047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1320256831}
   - component: {fileID: 1320256832}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bg clouds right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11407,7 +11485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1348272582}
   - component: {fileID: 1348272583}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars upper L 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11922,7 +12000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1392150850}
   - component: {fileID: 1392150849}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12009,7 +12087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395459544}
   - component: {fileID: 1395459545}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: House (112 x 96)_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12504,7 +12582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1435850470}
   - component: {fileID: 1435850471}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12788,7 +12866,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1451978145}
   - component: {fileID: 1451978146}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars upper L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13379,7 +13457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1548948394}
   - component: {fileID: 1548948395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13466,7 +13544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1549979030}
   - component: {fileID: 1549979031}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13622,7 +13700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1573247712}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Upper Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13884,7 +13962,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1618531798}
   - component: {fileID: 1618531799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars few
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14604,7 +14682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1699396318}
   - component: {fileID: 1699396319}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bg clouds down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14898,7 +14976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1735019394}
   - component: {fileID: 1735019395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15375,7 +15453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1764535971}
   - component: {fileID: 1764535972}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: tree_row right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15681,7 +15759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1776377627}
   - component: {fileID: 1776377628}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hlava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46683,7 +46761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1838083818}
   - component: {fileID: 1838083819}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46770,7 +46848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1838367659}
   - component: {fileID: 1838367660}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46867,7 +46945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1851792798}
   - component: {fileID: 1851792799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars lower 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46964,7 +47042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1856403578}
   - component: {fileID: 1856403579}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hlava
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47087,7 +47165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1857977221}
   - component: {fileID: 1857977222}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tree_row rifht
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47482,7 +47560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1909016948}
   - component: {fileID: 1909016949}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pterodactyl (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47644,7 +47722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1920186194}
   - component: {fileID: 1920186195}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47796,7 +47874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1929025621}
   - component: {fileID: 1929025622}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bi planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48017,7 +48095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1933021876}
   - component: {fileID: 1933021877}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: bg clouds left (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48572,7 +48650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1973848612}
   - component: {fileID: 1973848613}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: milkyway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48729,7 +48807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1987543508}
   - component: {fileID: 1987543509}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stars upper R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49362,7 +49440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2102206752}
   - component: {fileID: 2102206751}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: spodna voda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49795,7 +49873,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2143696215}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: dedina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50013,3 +50091,4 @@ SceneRoots:
   - {fileID: 609699692}
   - {fileID: 1766102761}
   - {fileID: 1932284294}
+  - {fileID: 185008238}

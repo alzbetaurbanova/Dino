@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2494202906246939086}
   - component: {fileID: 4409027306164653846}
   - component: {fileID: 1915056701675301965}
+  - component: {fileID: 8113229691432643514}
   m_Layer: 0
   m_Name: MiniMeteor
   m_TagString: Target
@@ -78,9 +79,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2126453093
-  m_SortingLayer: 7
-  m_SortingOrder: 5
+  m_SortingLayerID: -1907645581
+  m_SortingLayer: 4
+  m_SortingOrder: 3
   m_Sprite: {fileID: 697628390695657764, guid: 286112c4242c8904cb79b692651beaf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -153,7 +154,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.5}
   m_Radius: 0.47959185
 --- !u!95 &1915056701675301965
 Animator:
@@ -177,6 +178,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8113229691432643514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4764383212905418736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695ca887040544045b58b50e0ea49e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eyeRenderer: {fileID: 6425777182715132985}
+  possibleEyeSprites:
+  - {fileID: -4249233988084288615, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 3357169478671259185, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: -5392359715037426086, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: -504566307898769978, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: -1369442752077400617, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 7693689424513291505, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 3910814142269802715, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 6797727756683028076, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 6976924506079210283, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 6556349454980490807, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 4503929447698325558, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  - {fileID: 7936863876577030620, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
+  fireRenderer: {fileID: 344568253496384760}
+  delay: 0
 --- !u!1 &5900334428080727807
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +218,7 @@ GameObject:
   - component: {fileID: 344568253496384760}
   m_Layer: 0
   m_Name: Fire
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -250,9 +279,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2126453093
-  m_SortingLayer: 7
-  m_SortingOrder: 4
+  m_SortingLayerID: -1907645581
+  m_SortingLayer: 4
+  m_SortingOrder: 2
   m_Sprite: {fileID: -6227683355814465616, guid: f89952c862d747d489c9fb07ea832a5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -274,7 +303,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3926297511020995246}
   - component: {fileID: 6425777182715132985}
-  - component: {fileID: 3728584679501607305}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Target
@@ -338,9 +366,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2126453093
-  m_SortingLayer: 7
-  m_SortingOrder: 6
+  m_SortingLayerID: -1907645581
+  m_SortingLayer: 4
+  m_SortingOrder: 4
   m_Sprite: {fileID: -4249233988084288615, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -352,30 +380,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3728584679501607305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6892075660075331207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 695ca887040544045b58b50e0ea49e94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eyeRenderer: {fileID: 6425777182715132985}
-  possibleEyeSprites:
-  - {fileID: -4249233988084288615, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 3357169478671259185, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: -5392359715037426086, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: -504566307898769978, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: -1369442752077400617, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 7693689424513291505, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 3910814142269802715, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 6797727756683028076, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 6976924506079210283, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 6556349454980490807, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 4503929447698325558, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  - {fileID: 7936863876577030620, guid: dce7ad7d4684a194d84a23d3a8c7f085, type: 3}
-  fireRenderer: {fileID: 344568253496384760}
