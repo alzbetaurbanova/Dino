@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0618
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -9,7 +10,20 @@ using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour
 
 {
-    public static MusicManager Instance => instance;
+    private static MusicManager _instance;
+    public static MusicManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                // 🔥 Ak je null, skúste ho nájsť (aj neaktívny)
+                _instance = FindObjectOfType<MusicManager>(true);
+                // Ak stále nie je nájdený (alebo ak chceme zabrániť viacerým), toto je kľúč.
+            }
+            return _instance;
+        }
+    }
 
     [SerializeField] private AudioClip[] musicPlaylist;
     private AudioSource audioSource;

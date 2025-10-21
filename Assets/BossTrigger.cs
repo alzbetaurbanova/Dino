@@ -16,10 +16,10 @@ public class BossTrigger : MonoBehaviour
 
     private MeteorBossController boss;
     private CameraScroll cameraScroll;
-    
+
     private void Start()
     {
-        
+
         if (mainCamera == null)
             mainCamera = Camera.main;
 
@@ -27,14 +27,36 @@ public class BossTrigger : MonoBehaviour
         cameraScroll = FindObjectOfType<CameraScroll>();
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+
+
+        if (boss == null)
+        {
+            boss = FindObjectOfType<MeteorBossController>();
+        }
+        if (cameraScroll == null)
+        {
+            cameraScroll = FindObjectOfType<CameraScroll>();
+        }
+
         if (boss == null || cameraScroll == null) return;
+
 
         if (!cameraZoomedIn)
         {
             originalCamSize = mainCamera.orthographicSize;
+
+            // Kontrola pre Player transform v CameraScroll
+            if (cameraScroll.player == null)
+            {
+                PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
+                if (playerHealth != null) cameraScroll.player = playerHealth.transform;
+            }
+            if (cameraScroll.player == null) return;
+
             originalCamPosition = new Vector3(
                 mainCamera.transform.position.x,
                 cameraScroll.player.position.y + cameraScroll.verticalOffset,
@@ -56,23 +78,30 @@ public class BossTrigger : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+
+        if (boss == null)
+        {
+            boss = FindObjectOfType<MeteorBossController>();
+        }
         if (boss == null || cameraScroll == null) return;
 
         float playerY = other.transform.position.y;
         float triggerY = transform.position.y;
 
-        if (playerY < triggerY) // len ak hráč odíde smerom dole
+        if (playerY < triggerY)
         {
             if (cameraZoomedIn)
             {
                 StopAllCoroutines();
-                StartCoroutine(ResetCameraCoroutine());
+                StartCoroutine(ResetCameraCoroutine(mainCamera, cameraScroll, originalCamSize, originalCamPosition, zoomDuration));
+
                 cameraZoomedIn = false;
             }
 
             boss.SetAttackState(false);
         }
     }
+
 
     private IEnumerator ZoomCameraOut()
     {
@@ -94,24 +123,27 @@ public class BossTrigger : MonoBehaviour
         mainCamera.transform.position = targetPos;
     }
 
-    private IEnumerator ResetCameraCoroutine()
+    private IEnumerator ResetCameraCoroutine(Camera cam, CameraScroll cameraScroll, float originalSize, Vector3 originalPos, float duration)
     {
         float elapsed = 0f;
-        float startZoom = mainCamera.orthographicSize;
-        Vector3 startPos = mainCamera.transform.position;
+        float startZoom = cam.orthographicSize;
+        Vector3 startPos = cam.transform.position;
 
-        while (elapsed < zoomDuration)
+        while (elapsed < duration)
         {
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / zoomDuration);
-            mainCamera.orthographicSize = Mathf.Lerp(startZoom, originalCamSize, t);
-            mainCamera.transform.position = Vector3.Lerp(startPos, originalCamPosition, t);
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            cam.orthographicSize = Mathf.Lerp(startZoom, originalSize, t);
+            cam.transform.position = Vector3.Lerp(startPos, originalPos, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        mainCamera.orthographicSize = originalCamSize;
-        mainCamera.transform.position = originalCamPosition;
+        cam.orthographicSize = originalSize;
+        cam.transform.position = originalPos;
 
-        cameraScroll.allowFollow = true;
+        if (cameraScroll != null)
+        {
+            cameraScroll.allowFollow = true;
+        }
     }
 }
