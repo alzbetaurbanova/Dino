@@ -19,7 +19,6 @@ public class BossTrigger : MonoBehaviour
 
     private void Start()
     {
-
         if (mainCamera == null)
             mainCamera = Camera.main;
 
@@ -31,7 +30,6 @@ public class BossTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-
 
         if (boss == null)
         {
@@ -49,7 +47,6 @@ public class BossTrigger : MonoBehaviour
         {
             originalCamSize = mainCamera.orthographicSize;
 
-            // Kontrola pre Player transform v CameraScroll
             if (cameraScroll.player == null)
             {
                 PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
@@ -65,8 +62,7 @@ public class BossTrigger : MonoBehaviour
 
             cameraScroll.allowFollow = false;
 
-            StopAllCoroutines();
-            StartCoroutine(ZoomCameraOut());
+            boss.StartBossCameraZoom(mainCamera, originalCamPosition, zoomOutSize, yOffset, zoomDuration);
 
             cameraZoomedIn = true;
             boss.StartBossFightExternally();
@@ -92,58 +88,12 @@ public class BossTrigger : MonoBehaviour
         {
             if (cameraZoomedIn)
             {
-                StopAllCoroutines();
-                StartCoroutine(ResetCameraCoroutine(mainCamera, cameraScroll, originalCamSize, originalCamPosition, zoomDuration));
+                boss.ResetBossCamera(mainCamera, cameraScroll, originalCamSize, originalCamPosition, zoomDuration);
 
                 cameraZoomedIn = false;
             }
 
             boss.SetAttackState(false);
-        }
-    }
-
-
-    private IEnumerator ZoomCameraOut()
-    {
-        float elapsed = 0f;
-        Vector3 targetPos = originalCamPosition + new Vector3(0f, yOffset, 0f);
-        float startZoom = mainCamera.orthographicSize;
-        Vector3 startPos = mainCamera.transform.position;
-
-        while (elapsed < zoomDuration)
-        {
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / zoomDuration);
-            mainCamera.orthographicSize = Mathf.Lerp(startZoom, zoomOutSize, t);
-            mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        mainCamera.orthographicSize = zoomOutSize;
-        mainCamera.transform.position = targetPos;
-    }
-
-    private IEnumerator ResetCameraCoroutine(Camera cam, CameraScroll cameraScroll, float originalSize, Vector3 originalPos, float duration)
-    {
-        float elapsed = 0f;
-        float startZoom = cam.orthographicSize;
-        Vector3 startPos = cam.transform.position;
-
-        while (elapsed < duration)
-        {
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
-            cam.orthographicSize = Mathf.Lerp(startZoom, originalSize, t);
-            cam.transform.position = Vector3.Lerp(startPos, originalPos, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        cam.orthographicSize = originalSize;
-        cam.transform.position = originalPos;
-
-        if (cameraScroll != null)
-        {
-            cameraScroll.allowFollow = true;
         }
     }
 }

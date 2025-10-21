@@ -46,16 +46,19 @@ public class MeteorBossController : MonoBehaviour
 
     [Header("Hover Movement")]
     [SerializeField] private float hoverDistance = 0.5f;
-    [SerializeField] private float hoverSpeed = 1f; 
+    [SerializeField] private float hoverSpeed = 1f;
     private Vector3 startPosition;
 
     private bool fightActive = false;
     private bool attackEnabled = true;
 
+    private Coroutine cameraCoroutine;
+
+
     void Start()
     {
         currentHealth = maxHealth;
-        
+
         if (bossHealthBar != null)
         {
             bossHealthBar.maxValue = maxHealth;
@@ -67,14 +70,14 @@ public class MeteorBossController : MonoBehaviour
             bossHeartUI.SetActive(false);
 
         UpdateHeartUI();
-        startPosition = transform.position; // Uložíme stredovú pozíciu
+        startPosition = transform.position;
         StartCoroutine(HoverRoutine());
     }
 
 
     public void StartBossFightExternally()
     {
-        if (MusicManager.Instance != null) 
+        if (MusicManager.Instance != null)
         {
             MusicManager.Instance.PlayBossMusic();
         }
@@ -94,16 +97,17 @@ public class MeteorBossController : MonoBehaviour
             deadZone.gameObject.SetActive(false);
             Debug.Log("DeadZone OFF");
         }
-            PlayerHealth player = FindObjectOfType<PlayerHealth>();
 
-            playerTransform = player.transform;
-            bossHealthBar.gameObject.SetActive(true);
-            bossHeartUI.SetActive(true);
-            targetSpawner.verticalOffset = 1000f;
+        PlayerHealth player = FindObjectOfType<PlayerHealth>();
+
+        playerTransform = player.transform;
+        bossHealthBar.gameObject.SetActive(true);
+        bossHeartUI.SetActive(true);
+        targetSpawner.verticalOffset = 1000f;
 
 
-      
-        
+
+
         StartCoroutine(AttackRoutine());
         yield return null;
     }
@@ -119,7 +123,7 @@ public class MeteorBossController : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
-        
+
         while (fightActive && currentHealth > 0)
         {
             if (!attackEnabled)
@@ -137,14 +141,14 @@ public class MeteorBossController : MonoBehaviour
             PlayIdleAnimations();
 
         }
-       
+
     }
 
     void SpawnMiniMeteor(Vector3 pos)
     {
         if (playerTransform == null)
         {
-            Debug.LogWarning("❌ Player transform not found!");
+            Debug.LogWarning("Player transform not found!");
             return;
         }
 
@@ -153,7 +157,7 @@ public class MeteorBossController : MonoBehaviour
         Rigidbody2D rb = meteor.GetComponent<Rigidbody2D>();
         if (rb == null)
         {
-            Debug.LogError("❌ Rigidbody2D not found on MiniMeteor!");
+            Debug.LogError("Rigidbody2D not found on MiniMeteor!");
             return;
         }
 
@@ -170,15 +174,13 @@ public class MeteorBossController : MonoBehaviour
         rb.angularDrag = 0f;
         rb.velocity = direction * speed;
 
-        Debug.Log($"🚀 Meteor spawned. Speed: {speed}, Dir: {direction}");
-
         Destroy(meteor, 5f);
     }
 
 
     public void TakeDamage(int damage)
     {
-        if (!fightActive || !attackEnabled) return;
+        if (!fightActive && !attackEnabled) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
@@ -277,11 +279,11 @@ public class MeteorBossController : MonoBehaviour
     IEnumerator HoverRoutine()
     {
         while (true)
-        { 
+        {
             float newY = startPosition.y + Mathf.Sin(Time.time * hoverSpeed) * hoverDistance;
             transform.position = new Vector3(startPosition.x, newY, startPosition.z);
 
-            yield return null; 
+            yield return null;
         }
     }
     IEnumerator EndBossFight()
@@ -299,7 +301,6 @@ public class MeteorBossController : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        // 🔓 Unlock Level 2
         PlayerPrefs.SetInt("Level2Unlocked", 1);
         PlayerPrefs.Save();
 
@@ -307,4 +308,64 @@ public class MeteorBossController : MonoBehaviour
         ui.OpenEndScreen();
     }
 
+    public void StartBossCameraZoom(Camera cam, Vector3 originalPos, float zoomSize, float offset, float duration)
+    {
+        if (cameraCoroutine != null)
+            StopCoroutine(cameraCoroutine);
+
+        cameraCoroutine = StartCoroutine(ZoomCameraOutCoroutine(cam, originalPos, zoomSize, offset, duration));
+    }
+
+    public void ResetBossCamera(Camera cam, CameraScroll cameraScroll, float originalSize, Vector3 originalPos, float duration)
+    {
+        if (cameraCoroutine != null)
+            StopCoroutine(cameraCoroutine);
+
+        cameraCoroutine = StartCoroutine(ResetCameraCoroutine(cam, cameraScroll, originalSize, originalPos, duration));
+    }
+
+
+    private IEnumerator ZoomCameraOutCoroutine(Camera cam, Vector3 originalPos, float zoomSize, float offset, float duration)
+    {
+        float elapsed = 0f;
+        Vector3 targetPos = originalPos + new Vector3(0f, offset, 0f);
+        float startZoom = cam.orthographicSize;
+        Vector3 startPos = cam.transform.position;
+
+        while (elapsed < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            cam.orthographicSize = Mathf.Lerp(startZoom, zoomSize, t);
+            cam.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cam.orthographicSize = zoomSize;
+        cam.transform.position = targetPos;
+    }
+
+    private IEnumerator ResetCameraCoroutine(Camera cam, CameraScroll cameraScroll, float originalSize, Vector3 originalPos, float duration)
+    {
+        float elapsed = 0f;
+        float startZoom = cam.orthographicSize;
+        Vector3 startPos = cam.transform.position;
+
+        while (elapsed < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            cam.orthographicSize = Mathf.Lerp(startZoom, originalSize, t);
+            cam.transform.position = Vector3.Lerp(startPos, originalPos, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cam.orthographicSize = originalSize;
+        cam.transform.position = originalPos;
+
+        if (cameraScroll != null)
+        {
+            cameraScroll.allowFollow = true;
+        }
+    }
 }

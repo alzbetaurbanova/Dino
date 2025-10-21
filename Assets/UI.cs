@@ -3,11 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class UI : MonoBehaviour
 {
-    public static UI instance; //pre všetky scripty dostupne
+    public static UI instance;
     public static bool isGameOver = false;
+
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI ammoText;
@@ -25,7 +25,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GunController GunController;
     [SerializeField] private GameObject gameOverScreen;
     private float gameTime = 0f;
-    //public int highscore = PlayerPrefs.GetInt("Highscore", 0); --> POTOM ODKOMENTUJ NA HIGHSCORE
+
     [SerializeField] private CameraScroll cameraScroll;
     [SerializeField] private UnityEngine.UI.Toggle shakeToggle;
     public bool isCameraShakeEnabled = true;
@@ -35,43 +35,44 @@ public class UI : MonoBehaviour
     [SerializeField] private Sprite emptyHeart;
 
 
-
     private void Awake()
     {
-        instance = this; //pre všetky scripty dostupne
-
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
+
     void Start()
     {
         gameTime = 0f;
+        isGameOver = false;
+        Time.timeScale = 1;
         gameOverScreen.SetActive(false);
 
-        // Načítaj uložený stav zo storage a nastav kameru
-        cameraScroll.enableShake = PlayerPrefs.GetInt("CameraShake", 1) == 1;
+        if (cameraScroll != null)
+        {
+            cameraScroll.enableShake = PlayerPrefs.GetInt("CameraShake", 1) == 1;
+        }
+
 
         if (shakeToggle != null)
         {
-            // Odstráni event listener, aby nenastalo volanie ToggleCameraShake pri nastavovaní isOn
             shakeToggle.onValueChanged.RemoveAllListeners();
-
-            // Nastaví toggle bez spustenia eventu
             shakeToggle.isOn = cameraScroll.enableShake;
-
-            // Pripni event listener, ktorý bude volať ToggleCameraShake pri zmene UI
             shakeToggle.onValueChanged.AddListener(ToggleCameraShake);
         }
     }
-
-
 
     void Update()
     {
         if (!isGameOver)
         {
             gameTime += Time.deltaTime;
-            timerText.text = gameTime.ToString("#,#"); //"#,#" --> int sekundy 
+            timerText.text = gameTime.ToString("#,#");
         }
-
     }
 
     public void AddScore()
@@ -79,56 +80,48 @@ public class UI : MonoBehaviour
         scoreValue++;
         scoreText.text = scoreValue.ToString("#,#");
     }
+
     public void UpdateAmmoInfo(int currentBullets, int maxBullets)
     {
         ammoText.text = currentBullets + "/" + maxBullets;
     }
+
     public void CheckForHighscore(int scoreValue)
     {
-        int bestScore = PlayerPrefs.GetInt("Highscore", 0); // 0 = default
-
+        int bestScore = PlayerPrefs.GetInt("Highscore", 0);
 
         if (scoreValue > bestScore)
         {
             PlayerPrefs.SetInt("Highscore", scoreValue);
-            PlayerPrefs.Save(); // ulož do súboru
-            //Debug.Log("New Highscore: " + scoreValue);
+            PlayerPrefs.Save();
         }
     }
 
     public void OpenEndScreen()
     {
-
-        Time.timeScale = 0; //vypne to hru
-        gameOverScreen.SetActive(true);
-        //tryAgainButton.SetActive(true);
-        yourScoreText.text = "Score: " + scoreValue.ToString("#,#");
-        yourHighscore.text = "Highscore: " + scoreValue.ToString("#,#"); //highscore bez to string
+        Time.timeScale = 0;
         isGameOver = true;
+
         CheckForHighscore(scoreValue);
+        int finalHighscore = PlayerPrefs.GetInt("Highscore", 0);
 
+        gameOverScreen.SetActive(true);
 
+        yourScoreText.text = "Score: " + scoreValue.ToString("#,#");
+        yourHighscore.text = "Highscore: " + finalHighscore.ToString("#,#");
     }
+
     public void RestartGame()
     {
-        gameTime = 0f;
-        isGameOver = false;
-        Time.timeScale = 1;
-
-        // Resetni stav hudby
-        if (MusicManager.Instance != null)
-            MusicManager.Instance.ResetMusicState();
-
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
 
     public void QuitGame()
     {
         Debug.Log("Game is quitting...");
         Application.Quit();
     }
+
     public void ShowMeteorShowerText()
     {
         if (meteorShowerText != null)
@@ -148,7 +141,7 @@ public class UI : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        if (cameraScroll.enableShake)
+        if (cameraScroll != null && cameraScroll.enableShake)
         {
             cameraScroll.ShakeCamera();
         }
@@ -156,26 +149,26 @@ public class UI : MonoBehaviour
 
     public void ToggleCameraShake(bool enabled)
     {
-
-        cameraScroll.enableShake = enabled;
+        if (cameraScroll != null)
+        {
+            cameraScroll.enableShake = enabled;
+        }
 
         PlayerPrefs.SetInt("CameraShake", enabled ? 1 : 0);
         PlayerPrefs.Save();
 
-    // Debug.Log("KAMERA HALO: " + enabled);
-
-        if (!enabled)
+        if (cameraScroll != null && !enabled)
         {
-            cameraScroll.StopShake();  // Ak chceš zastaviť shake keď toggle vypneš
+            cameraScroll.StopShake();
         }
     }
-
-
 
     public void UpdateHPHearts(int currentHP)
     {
         for (int i = 0; i < hearts.Length; i++)
         {
+            if (hearts[i] == null) continue;
+
             if (i < currentHP)
             {
                 hearts[i].sprite = fullHeart;
@@ -191,8 +184,4 @@ public class UI : MonoBehaviour
             OpenEndScreen();
         }
     }
-
-
-
-
 }

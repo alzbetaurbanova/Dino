@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-
 public class MusicManager : MonoBehaviour
-
 {
     private static MusicManager _instance;
     public static MusicManager Instance
@@ -17,9 +14,7 @@ public class MusicManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 🔥 Ak je null, skúste ho nájsť (aj neaktívny)
                 _instance = FindObjectOfType<MusicManager>(true);
-                // Ak stále nie je nájdený (alebo ak chceme zabrániť viacerým), toto je kľúč.
             }
             return _instance;
         }
@@ -31,12 +26,10 @@ public class MusicManager : MonoBehaviour
     private List<AudioClip> shuffledPlaylist = new List<AudioClip>();
     private int currentTrack = 0;
 
-    private static MusicManager instance;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private float defaultVolume = 0.2f;
     public bool isMusicPaused = false;
 
-    // 🔥 BOSS MUSIC SYSTEM
     [Header("Boss Music Settings")]
     [SerializeField] private AudioClip bossMusic;
     [SerializeField] private float fadeDuration = 1.5f;
@@ -47,33 +40,28 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private Text trackNameText;
     [SerializeField] private Button nextTrackButton;
 
-
-
-
     void OnApplicationFocus(bool focus)
     {
         hasFocus = focus;
     }
+
     void Awake()
     {
-        if (instance == null)
+        if (_instance != null && _instance != this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);  // Znič duplicitu!
+            Destroy(gameObject);
             return;
         }
+        _instance = this;
 
         audioSource = GetComponent<AudioSource>();
-        audioSource.volume = defaultVolume;
+
+        float savedVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
+        audioSource.volume = savedVolume;
 
         if (volumeSlider != null)
         {
-            volumeSlider.value = defaultVolume;
-            volumeSlider.onValueChanged.AddListener(SetVolume);
+            SetupSlider(volumeSlider, savedVolume);
         }
 
         ShufflePlaylist();
@@ -82,11 +70,15 @@ public class MusicManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
+    private void SetupSlider(Slider slider, float savedVolume)
+    {
+        slider.value = savedVolume;
+        slider.onValueChanged.RemoveAllListeners();
+        slider.onValueChanged.AddListener(SetVolume);
+    }
 
     void Update()
     {
-        // Ak nemáme fokus alebo pauza, nič nerob
         if (!hasFocus || isMusicPaused || bossMusicPlaying) return;
 
         if (!audioSource.isPlaying)
@@ -97,6 +89,8 @@ public class MusicManager : MonoBehaviour
 
     private void ShufflePlaylist()
     {
+        if (musicPlaylist == null || musicPlaylist.Length == 0) return;
+
         shuffledPlaylist = new List<AudioClip>(musicPlaylist);
 
         for (int i = 0; i < shuffledPlaylist.Count; i++)
@@ -123,7 +117,10 @@ public class MusicManager : MonoBehaviour
     public void SetVolume(float volume)
     {
         if (audioSource != null)
+        {
             audioSource.volume = volume;
+            PlayerPrefs.SetFloat("MusicVolume", volume);
+        }
     }
 
     private void NextTrack()
@@ -132,11 +129,10 @@ public class MusicManager : MonoBehaviour
 
         if (currentTrack >= shuffledPlaylist.Count)
         {
-            // Aby sa nezopakovala tá istá pesnička po sebe:
-            AudioClip lastClip = shuffledPlaylist[shuffledPlaylist.Count - 1];
+            AudioClip lastClip = shuffledPlaylist.Count > 0 ? shuffledPlaylist[shuffledPlaylist.Count - 1] : null;
             ShufflePlaylist();
 
-            if (shuffledPlaylist[0] == lastClip && shuffledPlaylist.Count > 1)
+            if (lastClip != null && shuffledPlaylist.Count > 1 && shuffledPlaylist[0] == lastClip)
             {
                 var temp = shuffledPlaylist[0];
                 shuffledPlaylist[0] = shuffledPlaylist[1];
@@ -148,6 +144,7 @@ public class MusicManager : MonoBehaviour
 
         PlayCurrentTrack();
     }
+
     public void SkipToNextTrack()
     {
         if (bossMusicPlaying || isMusicPaused) return;
@@ -161,7 +158,6 @@ public class MusicManager : MonoBehaviour
     }
 
 
-    // ⏬ BOSS MUSIC WITH FADE OUT
     public void PlayBossMusic()
     {
         if (nextTrackButton != null)
@@ -180,6 +176,12 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator FadeOutAndPlayBossTrack()
     {
+        if (audioSource == null || bossMusic == null)
+        {
+            bossMusicPlaying = false;
+            yield break;
+        }
+
         float startVolume = audioSource.volume;
         float t = 0f;
 
@@ -197,18 +199,19 @@ public class MusicManager : MonoBehaviour
             trackNameText.text = bossMusic.name;
 
 
+        float targetVolume = volumeSlider != null ? volumeSlider.value : PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
+
         t = 0f;
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(0f, volumeSlider.value, t / fadeDuration);
+            audioSource.volume = Mathf.Lerp(0f, targetVolume, t / fadeDuration);
             yield return null;
         }
 
-        audioSource.volume = volumeSlider.value;
+        audioSource.volume = targetVolume;
     }
 
-    // ⏫ VOLITEĽNE: Na návrat k playlistu
     public void ResumePlaylist()
     {
         if (nextTrackButton != null)
@@ -224,6 +227,12 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator FadeOutAndResumePlaylist()
     {
+        if (audioSource == null)
+        {
+            bossMusicPlaying = false;
+            yield break;
+        }
+
         float startVolume = audioSource.volume;
         float t = 0f;
 
@@ -238,17 +247,20 @@ public class MusicManager : MonoBehaviour
         currentTrack = 0;
         PlayCurrentTrack();
 
+        float targetVolume = volumeSlider != null ? volumeSlider.value : PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
+
         t = 0f;
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            audioSource.volume = Mathf.Lerp(0f, volumeSlider.value, t / fadeDuration);
+            audioSource.volume = Mathf.Lerp(0f, targetVolume, t / fadeDuration);
             yield return null;
         }
 
-        audioSource.volume = volumeSlider.value;
+        audioSource.volume = targetVolume;
         bossMusicPlaying = false;
     }
+
     public void ResetMusicState()
     {
         if (fadeCoroutine != null)
@@ -261,32 +273,37 @@ public class MusicManager : MonoBehaviour
         currentTrack = 0;
         PlayCurrentTrack();
 
-        // 👇 nastav aj meno pesničky naspäť
-        if (trackNameText != null)
+        if (trackNameText != null && audioSource.clip != null)
             trackNameText.text = audioSource.clip.name;
 
-        // a znovu aktivuj next track button ak si ho mal skrytý pri bossovi
         if (nextTrackButton != null)
             nextTrackButton.gameObject.SetActive(true);
-
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Znova nájdeme referencie, ktoré sa stratili po restartnutí scény
+
+        if (volumeSlider == null)
+        {
+            Slider foundSlider = FindObjectOfType<Slider>(true);
+            if (foundSlider != null)
+            {
+                volumeSlider = foundSlider;
+                float savedVolume = PlayerPrefs.GetFloat("MusicVolume", defaultVolume);
+                SetupSlider(volumeSlider, savedVolume);
+            }
+        }
+
         if (trackNameText == null)
         {
             trackNameText = GameObject.Find("isPlaying")?.GetComponent<Text>();
-            if (trackNameText != null)
-                trackNameText.text = audioSource.clip != null ? audioSource.clip.name : "";
+            if (trackNameText != null && audioSource.clip != null)
+                trackNameText.text = audioSource.clip.name;
         }
 
         if (nextTrackButton == null)
         {
-            GameObject btnObj = GameObject.Find("NextTrack");
-            if (btnObj != null)
-                nextTrackButton = btnObj.GetComponent<Button>();
+            nextTrackButton = GameObject.Find("NextTrack")?.GetComponent<Button>();
         }
     }
-
-
 }
