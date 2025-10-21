@@ -2075,7 +2075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &306415393
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2094,7 +2094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 205, y: -63}
+  m_AnchoredPosition: {x: 1431, y: -65.7}
   m_SizeDelta: {x: 260, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &306415394
@@ -4552,7 +4552,7 @@ MonoBehaviour:
   shootPoints:
   - {fileID: 113173507}
   ui: {fileID: 464049405}
-  musicManager: {fileID: 1766102759}
+  musicManager: {fileID: 0}
   targetSpawner: {fileID: 1865025648}
   deadZone: {fileID: 1630262323}
   headAnimator: {fileID: 1435626495}
@@ -5766,7 +5766,7 @@ GameObject:
   - component: {fileID: 788485804}
   - component: {fileID: 788485803}
   m_Layer: 5
-  m_Name: Text Q
+  m_Name: Text MM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5811,7 +5811,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT GAME
+  m_text: MAIN MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f37f05a096e87f42b44ae36c0eb0718, type: 2}
   m_sharedMaterial: {fileID: -7557099725321310984, guid: 0f37f05a096e87f42b44ae36c0eb0718, type: 2}
@@ -10422,7 +10422,7 @@ GameObject:
   - component: {fileID: 1233698936}
   - component: {fileID: 1233698935}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10494,14 +10494,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 464049405}
         m_TargetAssemblyTypeName: UI, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
+        m_MethodName: LoadMainMenu
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1233698936
@@ -15507,7 +15507,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

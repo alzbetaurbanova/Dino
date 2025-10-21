@@ -17,6 +17,7 @@ public class UI : MonoBehaviour
     [SerializeField] private float meteorTextDuration = 3f;
 
     private int scoreValue = 0;
+    private int currentHighscore = 0;
 
     [SerializeField] private GameObject tryAgainButton;
     [SerializeField] private GameObject QuitButton;
@@ -52,11 +53,12 @@ public class UI : MonoBehaviour
         Time.timeScale = 1;
         gameOverScreen.SetActive(false);
 
+        currentHighscore = PlayerPrefs.GetInt("Highscore", 0);
+
         if (cameraScroll != null)
         {
             cameraScroll.enableShake = PlayerPrefs.GetInt("CameraShake", 1) == 1;
         }
-
 
         if (shakeToggle != null)
         {
@@ -75,26 +77,54 @@ public class UI : MonoBehaviour
         }
     }
 
+    private string GetLevelKey(string suffix)
+    {
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        return sceneName + "_" + suffix;
+    }
+
+
     public void AddScore()
     {
         scoreValue++;
         scoreText.text = scoreValue.ToString("#,#");
+        IncrementTotalMeteors(1);
     }
 
     public void UpdateAmmoInfo(int currentBullets, int maxBullets)
     {
         ammoText.text = currentBullets + "/" + maxBullets;
     }
+    private void IncrementTotalMeteors(int amount)
+    {
+        string totalMeteorsKey = GetLevelKey("TotalMeteors");
+        int totalMeteors = PlayerPrefs.GetInt(totalMeteorsKey, 0);
+        totalMeteors += amount;
+        PlayerPrefs.SetInt(totalMeteorsKey, totalMeteors);
+        PlayerPrefs.Save();
+    }
 
     public void CheckForHighscore(int scoreValue)
     {
-        int bestScore = PlayerPrefs.GetInt("Highscore", 0);
+
+        string levelHighscoreKey = GetLevelKey("Highscore");
+        int bestScore = PlayerPrefs.GetInt(levelHighscoreKey, 0);
 
         if (scoreValue > bestScore)
         {
-            PlayerPrefs.SetInt("Highscore", scoreValue);
-            PlayerPrefs.Save();
+            PlayerPrefs.SetInt(levelHighscoreKey, scoreValue);
+            PlayerPrefs.Save(); 
+            currentHighscore = scoreValue;
         }
+    }
+
+    private void SaveTotalTime()
+    {
+        string totalTimeKey = GetLevelKey("TotalTime");
+        float totalTime = PlayerPrefs.GetFloat(totalTimeKey, 0f);
+        totalTime += gameTime;
+        PlayerPrefs.SetFloat(totalTimeKey, totalTime);
+        PlayerPrefs.Save(); 
     }
 
     public void OpenEndScreen()
@@ -103,12 +133,15 @@ public class UI : MonoBehaviour
         isGameOver = true;
 
         CheckForHighscore(scoreValue);
-        int finalHighscore = PlayerPrefs.GetInt("Highscore", 0);
+        SaveTotalTime();
+
+        int finalHighscore = PlayerPrefs.GetInt(GetLevelKey("Highscore"), 0);
 
         gameOverScreen.SetActive(true);
 
         yourScoreText.text = "Score: " + scoreValue.ToString("#,#");
         yourHighscore.text = "Highscore: " + finalHighscore.ToString("#,#");
+
     }
 
     public void RestartGame()
@@ -116,9 +149,15 @@ public class UI : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void LoadMainMenu(string menuSceneName = "MainMenu")
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(menuSceneName);
+    }
+
     public void QuitGame()
     {
-        Debug.Log("Game is quitting...");
+        Debug.Log("Application is quitting...");
         Application.Quit();
     }
 
