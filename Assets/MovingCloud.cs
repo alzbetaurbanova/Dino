@@ -11,6 +11,7 @@ public class MovingCloud : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 startPos;
     private bool movingOut = true;
+    private Rigidbody2D rider;
 
     private void Start()
     {
@@ -22,20 +23,36 @@ public class MovingCloud : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float direction = moveRight ? 1f : -1f;
-        Vector3 move = new Vector3(direction, 0f, 0f) * moveSpeed * Time.fixedDeltaTime;
+        float direction = (moveRight ? 1f : -1f) * (movingOut ? 1f : -1f);
+        Vector2 delta = new Vector2(direction, 0f) * moveSpeed * Time.fixedDeltaTime;
+
+        rb.MovePosition(rb.position + delta);
 
         if (movingOut)
         {
-            rb.MovePosition(transform.position + move);
             if (Vector3.Distance(startPos, transform.position) >= moveDistance)
                 movingOut = false;
         }
-        else
+        else if (Vector3.Distance(startPos, transform.position) <= 0.1f)
         {
-            rb.MovePosition(transform.position - move);
-            if (Vector3.Distance(startPos, transform.position) <= 0.1f)
-                movingOut = true;
+            movingOut = true;
         }
+
+        // Carry the rider by the exact same delta, so it never drifts relative to the cloud
+        // and its own velocity stays untouched (idle animation keeps playing).
+        if (rider != null)
+            rider.position += delta;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            rider = collision.rigidbody;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (rider != null && collision.rigidbody == rider)
+            rider = null;
     }
 }

@@ -193,11 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6362204e2b0db44ea034cc0c0ab98c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunAnim: {fileID: 2549715174856076767}
   gun: {fileID: 116761076417129377}
   gunDistance: 1.3
   bulletPrefab: {fileID: 2650892177192299720, guid: fb90c15f591fe4f4ca9c4b346fbf1722, type: 3}
   bulletSpeed: 15
+  muzzleOffset: 0.6
+  muzzleSideOffset: 0.05
   currentBullets: 0
   maxBullets: 15
 --- !u!50 &8444139040364050793
@@ -247,7 +248,6 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  isOnMovingPlatform: 0
 --- !u!70 &1838174208119455900
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

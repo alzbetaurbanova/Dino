@@ -20,24 +20,25 @@ public class Movecontroller : MonoBehaviour
     private bool isGrounded;
     private bool facingRight = false;
     private Camera mainCamera;
-    public bool isOnMovingPlatform = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         mainCamera = Camera.main;
+
+        // Without zero friction the player sticks to the side of a platform or cloud and hangs there.
+        rb.sharedMaterial = new PhysicsMaterial2D("PlayerNoFriction") { friction = 0f, bounciness = 0f };
+
+        // Moving platforms interpolate, so the player must too or it visually drifts ahead of them.
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
         Flip();
     }
 
     private void Update()
     {
         CollisionChecks();
-        if (isOnMovingPlatform)
-        {
-            // Ak je hráč na pohybujúcej sa platforme, neposúvaj ho samostatne
-            return;
-        }
 
         AnimationControllers();
         xInput = Input.GetAxisRaw("Horizontal");

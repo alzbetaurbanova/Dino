@@ -56,7 +56,7 @@ public class UI : MonoBehaviour
         if (shakeToggle != null && cameraScroll != null)
         {
             shakeToggle.onValueChanged.RemoveAllListeners();
-            shakeToggle.isOn = cameraScroll.enableShake;
+            shakeToggle.SetIsOnWithoutNotify(cameraScroll.enableShake);
             shakeToggle.onValueChanged.AddListener(ToggleCameraShake);
         }
     }

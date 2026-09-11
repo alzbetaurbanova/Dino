@@ -7,6 +7,12 @@ public class CameraScroll : MonoBehaviour
     public float followSpeed = 2f;
     public float verticalOffset = 3f;
 
+    [Header("Falling")]
+    public float fallFollowSpeed = 12f;
+    public float fallSpeedForMaxFollow = 15f;
+    public float fallVerticalOffset = -1.5f;
+    private Rigidbody2D playerRb;
+
     private Vector3 shakeOffset = Vector3.zero;
     private Vector3 originalPos;
     public float shakeDuration = 11f;
@@ -20,6 +26,22 @@ public class CameraScroll : MonoBehaviour
 
     public bool allowFollow = true; // 🔥 Nové – ovládanie sledovania
 
+    void Start()
+    {
+        if (player != null)
+            playerRb = player.GetComponent<Rigidbody2D>();
+    }
+
+    // 0 while rising or standing, 1 at full fall speed. Drives both how fast the camera
+    // catches up and how far it looks down, so the player can see what is below.
+    private float FallAmount()
+    {
+        if (playerRb == null || playerRb.linearVelocity.y >= 0f)
+            return 0f;
+
+        return Mathf.InverseLerp(0f, fallSpeedForMaxFollow, -playerRb.linearVelocity.y);
+    }
+
     void Update()
     {
         if (player == null) return;
@@ -32,9 +54,11 @@ public class CameraScroll : MonoBehaviour
 
         if (allowFollow)
         {
+            float fall = FallAmount();
+
             Vector3 targetPosition = new Vector3(
                 transform.position.x,
-                player.position.y + verticalOffset,
+                player.position.y + Mathf.Lerp(verticalOffset, fallVerticalOffset, fall),
                 transform.position.z
             );
 
@@ -51,7 +75,7 @@ public class CameraScroll : MonoBehaviour
                 }
             }
 
-            transform.position = Vector3.Lerp(transform.position, targetPosition + shakeOffset, followSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition + shakeOffset, Mathf.Lerp(followSpeed, fallFollowSpeed, fall) * Time.deltaTime);
         }
     }
 

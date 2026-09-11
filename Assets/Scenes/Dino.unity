@@ -1720,8 +1720,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 14.1, y: -59.6}
-  m_SizeDelta: {x: 298.6889, y: 20.175415}
+  m_AnchoredPosition: {x: 15.7335, y: -56.605133}
+  m_SizeDelta: {x: 301.9558, y: 22.6646}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!4 &271905712 stripped
 Transform:
@@ -3171,13 +3171,9 @@ MonoBehaviour:
   yourScoreText: {fileID: 1744557814}
   meteorShowerText: {fileID: 938244112}
   meteorTextDuration: 3
-  tryAgainButton: {fileID: 699794128}
-  QuitButton: {fileID: 807019804}
-  GunController: {fileID: 615364524}
   gameOverScreen: {fileID: 1333051872}
   cameraScroll: {fileID: 1635722992}
   shakeToggle: {fileID: 2108033057}
-  isCameraShakeEnabled: 1
   hearts:
   - {fileID: 1076166949}
   - {fileID: 470627362}
@@ -4552,7 +4548,6 @@ MonoBehaviour:
   shootPoints:
   - {fileID: 113173507}
   ui: {fileID: 464049405}
-  musicManager: {fileID: 0}
   targetSpawner: {fileID: 1865025648}
   deadZone: {fileID: 1630262323}
   headAnimator: {fileID: 1435626495}
@@ -4775,17 +4770,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9137579905727928507, guid: 49da3b4ce17b4e84ca58c27a611993a2, type: 3}
   m_PrefabInstance: {fileID: 5886349338702649400}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &615364524 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7735252259680016985, guid: 49da3b4ce17b4e84ca58c27a611993a2, type: 3}
-  m_PrefabInstance: {fileID: 5886349338702649400}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6362204e2b0db44ea034cc0c0ab98c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &618313868
 GameObject:
   m_ObjectHideFlags: 0
@@ -14593,7 +14577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgSettings: {fileID: 1488374924}
-  musicAudioSource: {fileID: 1766102760}
 --- !u!1 &1699396317
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@
 public class VolumeUIController : MonoBehaviour
 {
     [SerializeField] private GameObject bgSettings;
-    [SerializeField] private AudioSource musicAudioSource; // nastav v Inspector
     public static bool isMenuOpen = false;
 
     void Start()
@@ -15,21 +14,21 @@ public class VolumeUIController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (bgSettings.activeSelf)
-                CloseBGSettings();
-            else
-                OpenBGSettings();
-        }
+            OpenBGSettings();
     }
 
+    // Both the gear button and Escape call this; a second click closes the panel.
     public void OpenBGSettings()
     {
+        if (bgSettings.activeSelf)
+        {
+            CloseBGSettings();
+            return;
+        }
+
         bgSettings.SetActive(true);
         isMenuOpen = true;
         Time.timeScale = 0f;
-        if (musicAudioSource != null)
-            musicAudioSource.Pause();
     }
 
     public void CloseBGSettings()
@@ -37,8 +36,6 @@ public class VolumeUIController : MonoBehaviour
         bgSettings.SetActive(false);
         isMenuOpen = false;
         Time.timeScale = 1f;
-        if (musicAudioSource != null)
-            musicAudioSource.UnPause();
     }
 
     public void ExitGame()
