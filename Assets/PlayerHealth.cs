@@ -5,17 +5,22 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 3;
     private int currentHealth;
+    private bool isDead = false;
 
     void Start()
     {
         currentHealth = maxHealth;
-        UI.instance.UpdateHPHearts(currentHealth);
+        if (UI.instance != null)
+            UI.instance.UpdateHPHearts(currentHealth);
     }
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         currentHealth -= damage;
-        UI.instance.UpdateHPHearts(currentHealth);
+        if (UI.instance != null)
+            UI.instance.UpdateHPHearts(currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -25,6 +30,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        UI.instance.OpenEndScreen();
+        isDead = true;
+
+        if (UI.instance != null)
+            UI.instance.OpenEndScreen();
     }
 }

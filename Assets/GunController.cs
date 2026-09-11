@@ -1,13 +1,13 @@
 ﻿#pragma warning disable 0618 //vypne upozornenia
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
-    [SerializeField] private Animator gunAnim;
+    private Animator gunAnim;
     [SerializeField] private Transform gun;
     [SerializeField] private float gunDistance = 1.5f;
     private bool gunFacingRight = false;
+    private Camera mainCamera;
 
     [Header("Bullet")]
     [SerializeField] private GameObject bulletPrefab;
@@ -19,18 +19,19 @@ public class GunController : MonoBehaviour
     
     private void Start()
     {
+        mainCamera = Camera.main;
         Reload();
         gunAnim = gun.GetComponent<Animator>();
     }
 
     void Update()
     {
-        
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 direction = mousePos - transform.position;
-        gun.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg)); //rotacia (angle zbrane na zaklade pos)
+        if (mainCamera == null) return;
 
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = mousePos - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        gun.rotation = Quaternion.Euler(0, 0, angle);
         gun.position = transform.position + Quaternion.Euler(0, 0, angle) * new Vector3(gunDistance, 0, 0);
 
         if (UI.isGameOver) return; //aby nestrielal ked skončila hra
@@ -66,25 +67,19 @@ public class GunController : MonoBehaviour
 
     public void Shoot(Vector3 direction)
     {
-  
         gunAnim.SetTrigger("Shoot");
-        UI.instance.UpdateAmmoInfo(currentBullets,maxBullets);
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //Quaternion rotation = Quaternion.Euler(0, 0, angle);
-        Vector3 baseOffset = new Vector3(0.05f, 0.05f, 0f); // vylaď si podľa potreby
-        //Vector3 rotatedOffset = rotation * baseOffset;
-        GameObject newBullet = Instantiate(bulletPrefab, gun.position+baseOffset,Quaternion.identity); //Instantiate vytvorí sa nova bullet, staru neovladame
-        
-        
-
-        
-        newBullet.GetComponent<Rigidbody2D>().velocity = direction.normalized*bulletSpeed;
+        if (UI.instance != null)
+            UI.instance.UpdateAmmoInfo(currentBullets, maxBullets);
+        Vector3 baseOffset = new Vector3(0.05f, 0.05f, 0f);
+        GameObject newBullet = Instantiate(bulletPrefab, gun.position + baseOffset, Quaternion.identity);
+        newBullet.GetComponent<Rigidbody2D>().velocity = direction.normalized * bulletSpeed;
         Destroy(newBullet, 7);
     }
     private void Reload()
     {
-        currentBullets=maxBullets;
-        UI.instance.UpdateAmmoInfo(currentBullets, maxBullets);
+        currentBullets = maxBullets;
+        if (UI.instance != null)
+            UI.instance.UpdateAmmoInfo(currentBullets, maxBullets);
     }
     public bool HaveBullets()
     {

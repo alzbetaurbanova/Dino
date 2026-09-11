@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D rb => GetComponent<Rigidbody2D>();
+    private Rigidbody2D rb;
     [SerializeField] private GameObject Explosion;
+
+    void Awake() => rb = GetComponent<Rigidbody2D>();
 
     void Update() => transform.right = rb.velocity;
 
@@ -15,7 +17,8 @@ public class Bullet : MonoBehaviour
             Instantiate(Explosion, collision.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             Destroy(gameObject);
-            UI.instance.AddScore();
+            if (UI.instance != null)
+                UI.instance.AddScore();
 
             TargetSpawner spawner = FindObjectOfType<TargetSpawner>();
             if (spawner != null)

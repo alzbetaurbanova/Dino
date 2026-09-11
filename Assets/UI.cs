@@ -17,19 +17,14 @@ public class UI : MonoBehaviour
     [SerializeField] private float meteorTextDuration = 3f;
 
     private int scoreValue = 0;
-    private int currentHighscore = 0;
-
-    [SerializeField] private GameObject tryAgainButton;
-    [SerializeField] private GameObject QuitButton;
+    private bool statsSaved = false;
 
     [Space]
-    [SerializeField] private GunController GunController;
     [SerializeField] private GameObject gameOverScreen;
     private float gameTime = 0f;
 
     [SerializeField] private CameraScroll cameraScroll;
     [SerializeField] private UnityEngine.UI.Toggle shakeToggle;
-    public bool isCameraShakeEnabled = true;
 
     [SerializeField] private UnityEngine.UI.Image[] hearts;
     [SerializeField] private Sprite fullHeart;
@@ -53,14 +48,12 @@ public class UI : MonoBehaviour
         Time.timeScale = 1;
         gameOverScreen.SetActive(false);
 
-        currentHighscore = PlayerPrefs.GetInt("Highscore", 0);
-
         if (cameraScroll != null)
         {
             cameraScroll.enableShake = PlayerPrefs.GetInt("CameraShake", 1) == 1;
         }
 
-        if (shakeToggle != null)
+        if (shakeToggle != null && cameraScroll != null)
         {
             shakeToggle.onValueChanged.RemoveAllListeners();
             shakeToggle.isOn = cameraScroll.enableShake;
@@ -113,8 +106,7 @@ public class UI : MonoBehaviour
         if (scoreValue > bestScore)
         {
             PlayerPrefs.SetInt(levelHighscoreKey, scoreValue);
-            PlayerPrefs.Save(); 
-            currentHighscore = scoreValue;
+            PlayerPrefs.Save();
         }
     }
 
@@ -127,13 +119,21 @@ public class UI : MonoBehaviour
         PlayerPrefs.Save(); 
     }
 
+    private void SaveRunStats()
+    {
+        if (statsSaved) return;
+        statsSaved = true;
+
+        CheckForHighscore(scoreValue);
+        SaveTotalTime();
+    }
+
     public void OpenEndScreen()
     {
         Time.timeScale = 0;
         isGameOver = true;
 
-        CheckForHighscore(scoreValue);
-        SaveTotalTime();
+        SaveRunStats();
 
         int finalHighscore = PlayerPrefs.GetInt(GetLevelKey("Highscore"), 0);
 
@@ -146,11 +146,13 @@ public class UI : MonoBehaviour
 
     public void RestartGame()
     {
+        SaveRunStats();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu(string menuSceneName = "MainMenu")
     {
+        SaveRunStats();
         Time.timeScale = 1;
         SceneManager.LoadScene(menuSceneName);
     }
@@ -158,7 +160,13 @@ public class UI : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Application is quitting...");
+        SaveRunStats();
         Application.Quit();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveRunStats();
     }
 
     public void ShowMeteorShowerText()
@@ -216,11 +224,6 @@ public class UI : MonoBehaviour
             {
                 hearts[i].sprite = emptyHeart;
             }
-        }
-
-        if (currentHP <= 0)
-        {
-            OpenEndScreen();
         }
     }
 }

@@ -9,7 +9,6 @@ public class MeteorBossController : MonoBehaviour
     public int maxHealth = 200;
     private int currentHealth;
     private Coroutine regenCoroutine;
-    private Coroutine attackRoutineInstance;
     [SerializeField] private float regenRate = 2f;
     [SerializeField] private int regenAmount = 1;
 
@@ -33,7 +32,6 @@ public class MeteorBossController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private UI ui;
-    [SerializeField] private MusicManager musicManager;
     [SerializeField] private TargetSpawner targetSpawner;
     private Transform playerTransform;
     [SerializeField] private DeadZone deadZone;
@@ -99,11 +97,15 @@ public class MeteorBossController : MonoBehaviour
         }
 
         PlayerHealth player = FindObjectOfType<PlayerHealth>();
+        if (player != null)
+            playerTransform = player.transform;
 
-        playerTransform = player.transform;
-        bossHealthBar.gameObject.SetActive(true);
-        bossHeartUI.SetActive(true);
-        targetSpawner.verticalOffset = 1000f;
+        if (bossHealthBar != null)
+            bossHealthBar.gameObject.SetActive(true);
+        if (bossHeartUI != null)
+            bossHeartUI.SetActive(true);
+        if (targetSpawner != null)
+            targetSpawner.verticalOffset = 1000f;
 
 
 
@@ -111,16 +113,6 @@ public class MeteorBossController : MonoBehaviour
         StartCoroutine(AttackRoutine());
         yield return null;
     }
-    public void PauseBossFight()
-    {
-        fightActive = false;
-        StopAllCoroutines();
-        Debug.Log("Pause");
-        if (deadZone != null)
-        { deadZone.gameObject.SetActive(true); }
-        Debug.Log("DeadZone ON");
-    }
-
     IEnumerator AttackRoutine()
     {
 
@@ -180,7 +172,7 @@ public class MeteorBossController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!fightActive && !attackEnabled) return;
+        if (!fightActive || !attackEnabled) return;
 
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
@@ -198,6 +190,12 @@ public class MeteorBossController : MonoBehaviour
     {
         if (bossHeartUI == null) return;
 
+        if (heartFull == null || heartCracked == null || heartMid == null || heartLow == null || heartEmpty == null)
+        {
+            Debug.LogWarning("MeteorBossController: one or more heart UI GameObjects are not assigned.");
+            return;
+        }
+
         heartFull.SetActive(false);
         heartCracked.SetActive(false);
         heartMid.SetActive(false);
@@ -210,7 +208,7 @@ public class MeteorBossController : MonoBehaviour
             heartCracked.SetActive(true);
         else if (currentHealth > maxHealth * 0.3)
             heartMid.SetActive(true);
-        else if (currentHealth > maxHealth * 0.03)
+        else if (currentHealth > maxHealth * 0.05)
             heartLow.SetActive(true);
         else
             heartEmpty.SetActive(true);
@@ -299,13 +297,14 @@ public class MeteorBossController : MonoBehaviour
         if (targetSpawner != null)
             targetSpawner.verticalOffset = 9f;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
 
         PlayerPrefs.SetInt("Level2Unlocked", 1);
         PlayerPrefs.Save();
 
         Destroy(gameObject);
-        ui.OpenEndScreen();
+        if (ui != null)
+            ui.OpenEndScreen();
     }
 
     public void StartBossCameraZoom(Camera cam, Vector3 originalPos, float zoomSize, float offset, float duration)

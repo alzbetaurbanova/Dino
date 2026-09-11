@@ -19,12 +19,14 @@ public class Movecontroller : MonoBehaviour
 
     private bool isGrounded;
     private bool facingRight = false;
+    private Camera mainCamera;
     public bool isOnMovingPlatform = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        mainCamera = Camera.main;
         Flip();
     }
 
@@ -78,7 +80,8 @@ public class Movecontroller : MonoBehaviour
 
     private void FlipController()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (mainCamera == null) return;
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < transform.position.x && facingRight)
             Flip();
         else if (mousePos.x > transform.position.x && !facingRight)

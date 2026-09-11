@@ -18,7 +18,6 @@ public class TargetSpawner : MonoBehaviour
     public float showerDuration = 10f;
     public float showerCooldown = 40f;
 
-    //private bool isInMeteorShower = false;
     private float nextAllowedShowerTime = 0f;
 
 
@@ -46,7 +45,6 @@ public class TargetSpawner : MonoBehaviour
 
     IEnumerator MeteorShower()
     {
-        //isInMeteorShower = true;
         float originalCooldown = cooldown;
         cooldown = 0.3f; // viac meteorov
         nextAllowedShowerTime = Time.time + showerCooldown + showerDuration;
@@ -58,7 +56,6 @@ public class TargetSpawner : MonoBehaviour
         yield return new WaitForSeconds(showerDuration);
 
         cooldown = originalCooldown;
-        //isInMeteorShower = false;
         targetMilestone += 40; // ďalší shower pri +40
 
         Debug.Log("Meteor Shower ENDED. Next milestone: " + targetMilestone);

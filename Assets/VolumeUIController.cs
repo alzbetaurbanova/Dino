@@ -28,7 +28,8 @@ public class VolumeUIController : MonoBehaviour
         bgSettings.SetActive(true);
         isMenuOpen = true;
         Time.timeScale = 0f;
-        //musicAudioSource.Pause();
+        if (musicAudioSource != null)
+            musicAudioSource.Pause();
     }
 
     public void CloseBGSettings()
@@ -36,7 +37,8 @@ public class VolumeUIController : MonoBehaviour
         bgSettings.SetActive(false);
         isMenuOpen = false;
         Time.timeScale = 1f;
-        //musicAudioSource.UnPause();
+        if (musicAudioSource != null)
+            musicAudioSource.UnPause();
     }
 
     public void ExitGame()
